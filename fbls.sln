@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "fbls_extension_firefox", "fbls_extension\fbls_extension_firefox.njsproj", "{AB6618FE-016C-4E1B-B4D4-9F7BEF447361}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution_root", "solution_root", "{B060ED1C-4D68-4C95-9D0B-0C00F6CA1D7D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		license.txt = license.txt
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "fbls_extension_chrome", "fbls_extension\fbls_extension_chrome.njsproj", "{9873FB1F-ACD3-4964-9A3C-6AC3E752BE78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB6618FE-016C-4E1B-B4D4-9F7BEF447361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6618FE-016C-4E1B-B4D4-9F7BEF447361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6618FE-016C-4E1B-B4D4-9F7BEF447361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6618FE-016C-4E1B-B4D4-9F7BEF447361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9873FB1F-ACD3-4964-9A3C-6AC3E752BE78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9873FB1F-ACD3-4964-9A3C-6AC3E752BE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9873FB1F-ACD3-4964-9A3C-6AC3E752BE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9873FB1F-ACD3-4964-9A3C-6AC3E752BE78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2EE5CB2-8346-4D48-8644-61E1C638BB58}
+	EndGlobalSection
+EndGlobal
