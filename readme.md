@@ -16,8 +16,9 @@ Mostly this extension is for me to learn about browser extensions & JavaScript.
 - Mozilla Firefox or Google Chrome
 - Node.js
 	- Include in PATH
-- Visual Studio 2017 with latest updates
+- Visual Studio 2019 with latest updates
 	- Node.js development workload installed
+- NOTE: you might need to have Python in your PATH too...
 
 # Debugging
 
