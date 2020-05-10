@@ -1,5 +1,5 @@
 /*------------------------------------------.----------------------------------------------------
- *  Copyright (c) visuve. All rights reserved.
+ *  Copyright (c) visuve 2020. All rights reserved.
  *  Licensed under the MIT License. See license.txt in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
@@ -12,15 +12,21 @@
 	const FB_LINK_SHIM = "https://l.facebook.com/l.php?u=";
 
 	// See https://fbclid.com/ for more details
-	const FB_CLICK_ID = /(\?|&|&amp%3B)fbclid=.{0,61}/;
+	const FB_CLICK_ID = "fbclid";
 
 	// See https://en.wikipedia.org/wiki/UTM_parameters for more details
-	const UTM_PARAMS = /(\?|&|&amp%3B)utm_(source|medium|campaign|term|content|id)=[\w.]+/g;
+	const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id" ];
 
-	function cleanUpParameters(params) {
-		params = params.replace(FB_CLICK_ID, '');
-		params = params.replace(UTM_PARAMS, '');
-		return params;
+	function cleanUpSearchParameters(searchParams) {
+		if (searchParams.has(FB_CLICK_ID)) {
+			searchParams.delete(FB_CLICK_ID);
+		}
+		for (let i = 0; i < UTM_PARAMS.length; ++i) {
+			if (searchParams.has(UTM_PARAMS[i])) {
+				searchParams.delete(UTM_PARAMS[i]);
+			}
+		}
+		return '?' + searchParams.toString();
 	}
 
 	function cleanUpUrl(rawUrl) {
@@ -30,8 +36,9 @@
 			let cleaned = decoded.replace(/&h=[\S]*/, '');
 			let url = new URL(cleaned);
 
-			if (url.search && url.search !== "") {
-				return "https://" + url.host + url.pathname + cleanUpParameters(url.search);
+			let searchParams = url.searchParams;
+			if (searchParams) {
+				return "https://" + url.host + url.pathname + cleanUpSearchParameters(searchParams);
 			}
 
 			return "https://" + url.host + url.pathname;

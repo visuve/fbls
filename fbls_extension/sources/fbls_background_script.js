@@ -1,5 +1,5 @@
 /*------------------------------------------.----------------------------------------------------
- *  Copyright (c) visuve. All rights reserved.
+ *  Copyright (c) visuve 2020. All rights reserved.
  *  Licensed under the MIT License. See license.txt in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
