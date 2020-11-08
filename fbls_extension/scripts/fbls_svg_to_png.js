@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 // Example script arguments: source\fbls.svg
 try {

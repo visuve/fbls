@@ -15,7 +15,14 @@
 	const FB_CLICK_ID = "fbclid";
 
 	// See https://en.wikipedia.org/wiki/UTM_parameters for more details
-	const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id" ];
+	const UTM_PARAMS = [
+		"utm_source",
+		"utm_medium",
+		"utm_campaign",
+		"utm_term",
+		"utm_content",
+		"utm_id"
+	];
 
 	function cleanUpSearchParameters(searchParams) {
 		if (searchParams.has(FB_CLICK_ID)) {
@@ -26,22 +33,29 @@
 				searchParams.delete(UTM_PARAMS[i]);
 			}
 		}
-		return '?' + searchParams.toString();
+		let searchString = searchParams.toString();
+		if (!searchString) {
+			return "";
+		}
+		return '?' + searchString;
 	}
 
 	function cleanUpUrl(rawUrl) {
 		try {
-			let trimmed = rawUrl.substring(FB_LINK_SHIM.length);
-			let decoded = decodeURIComponent(trimmed);
-			let cleaned = decoded.replace(/&h=[\S]*/, '');
-			let url = new URL(cleaned);
+			if (rawUrl.startsWith(FB_LINK_SHIM)) {
+				rawUrl = rawUrl.substring(FB_LINK_SHIM.length);
+				rawUrl = decodeURIComponent(rawUrl);
+				rawUrl = rawUrl.replace(/&h=[\S]*/, '');
+			}
+
+			let url = new URL(rawUrl);
+			let cleaned = `https://${url.host}${url.pathname}`;
 
 			let searchParams = url.searchParams;
 			if (searchParams) {
-				return "https://" + url.host + url.pathname + cleanUpSearchParameters(searchParams);
+				cleaned += cleanUpSearchParameters(searchParams);
 			}
-
-			return "https://" + url.host + url.pathname;
+			return cleaned;
 		} catch (e) {
 			console.warn(`An exception occurred: ${e}`);
 		}
@@ -51,7 +65,10 @@
 
 	function removeAttributes(element) {
 		for (let i = element.attributes.length - 1; i >= 0; i--) {
-			element.removeAttribute(element.attributes[i].name);
+			let attributeName = element.attributes[i].name;
+			if (attributeName !== "href") {
+				element.removeAttribute(attributeName);
+			}
 		}
 	}
 
@@ -62,8 +79,7 @@
 		}
 
 		let rawUrl = element.getAttribute("href");
-
-		if (!rawUrl.startsWith(FB_LINK_SHIM)) {
+		if (!rawUrl.startsWith("http")) {
 			return false;
 		}
 
@@ -72,7 +88,6 @@
 		element.setAttribute("href", cleanedUrl);
 
 		if (cleanedUrl === rawUrl) {
-			console.warn(`Could not clean: ${rawUrl}`);
 			return false;
 		}
 
