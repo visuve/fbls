@@ -6,7 +6,7 @@
 "use strict";
 
 (function () {
-	console.time("FBLS background script init");
+	console.time("[FBLS] background script init");
 
 	let contentScriptPorts = new Map();
 	let statsPerTab = new Map();
@@ -24,14 +24,14 @@
 			contentScriptPorts.delete(tabId);
 
 			if (disconnectedPort.error) {
-				console.debug(`Tab(${tabId}) disconnected: ${disconnectedPort.error.message}`);
+				console.debug(`[FBLS] tab(${tabId}) disconnected: ${disconnectedPort.error.message}`);
 			} else {
-				console.debug(`Tab(${tabId}) disconnected`);
+				console.debug(`[FBLS] tab(${tabId}) disconnected`);
 			}
 		});
 
 		contentScriptPorts.set(tabId, port);
-		console.debug(`Tab(${tabId}) connected`);
+		console.debug(`[FBLS] tab(${tabId}) connected`);
 	}
 
 	function updateBadge(tabId, count) {
@@ -65,5 +65,5 @@
 		chrome.browserAction.onClicked.addListener(toolbarButtonClicked);
 	}
 
-	console.timeEnd("FBLS background script init");
+	console.timeEnd("[FBLS] background script init");
 })();

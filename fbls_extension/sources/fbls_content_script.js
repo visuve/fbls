@@ -6,13 +6,16 @@
 "use strict";
 
 (function () {
-	console.time("FBLS content script init");
+	console.time("[FBLS] content script init");
 
 	// Facebook link shim
 	const FB_LINK_SHIM = "https://l.facebook.com/l.php?u=";
 
 	// See https://fbclid.com/ for more details
-	const FB_CLICK_ID = "fbclid";
+	const FB_PARAMS = [
+		"fbclid",
+		"fbc_id"
+	]
 
 	// See https://en.wikipedia.org/wiki/UTM_parameters for more details
 	const UTM_PARAMS = [
@@ -25,13 +28,11 @@
 	];
 
 	function cleanUpSearchParameters(searchParams) {
-		if (searchParams.has(FB_CLICK_ID)) {
-			searchParams.delete(FB_CLICK_ID);
+		for (let i = 0; i < FB_PARAMS.length; ++i) {
+			searchParams.delete(FB_PARAMS[i]);
 		}
 		for (let i = 0; i < UTM_PARAMS.length; ++i) {
-			if (searchParams.has(UTM_PARAMS[i])) {
-				searchParams.delete(UTM_PARAMS[i]);
-			}
+			searchParams.delete(UTM_PARAMS[i]);
 		}
 		let searchString = searchParams.toString();
 		if (!searchString) {
@@ -57,7 +58,7 @@
 			}
 			return cleaned;
 		} catch (e) {
-			console.warn(`An exception occurred: ${e}`);
+			console.warn(`[FBLS] an exception occurred: ${e}`);
 		}
 
 		return rawUrl;
@@ -66,15 +67,13 @@
 	function removeAttributes(element) {
 		for (let i = element.attributes.length - 1; i >= 0; i--) {
 			let attributeName = element.attributes[i].name;
-			if (attributeName !== "href") {
-				element.removeAttribute(attributeName);
-			}
+			element.removeAttribute(attributeName);
 		}
 	}
 
 	function cleanUpLink(element, sender) {
 		if (!element.hasAttribute("href")) {
-			console.warn("Element has no href!");
+			console.warn("[FBLS] element has no href!");
 			return false;
 		}
 
@@ -108,7 +107,7 @@
 	}
 
 	function cleanUpBody() {
-		cleanUpLinks(document.body.getElementsByTagName('a'), 'I');
+		cleanUpLinks(document.getElementsByTagName('a'), 'I');
 	}
 
 	function handleMutations(mutations, o) {
@@ -139,9 +138,9 @@
 
 	function handleDisconnect(port) {
 		if (port.error) {
-			console.error(`Background script disconnected: ${port.error.message}`);
+			console.error(`[FBLS] background script disconnected: ${port.error.message}`);
 		} else {
-			console.error("Background script disconnected");
+			console.error("[FBLS] background script disconnected");
 		}
 
 		clearTimeout(statsSender);
@@ -172,5 +171,5 @@
 	cleanUpBody();
 	observeBody();
 
-	console.timeEnd("FBLS content script init");
+	console.timeEnd("[FBLS] content script init");
 })();
